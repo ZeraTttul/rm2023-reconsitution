@@ -6,7 +6,7 @@
 #define RM2023_RECONSITUTION_DEFINE_H
 
 
-#define CAP_INDEX 0             // 选择摄像头，默认是 0
+#define CAP_INDEX 2             // 选择摄像头，默认是 0
 //#define CLOCK                   // 计算推理时间用
 #define IMSHOW                  // 需要可视化时使用
 #define BLUE                    // 识别蓝色，用时取消注释

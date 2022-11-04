@@ -27,9 +27,10 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat binary)
                 // cout << "not predirct" << endl;
                 // cout << "center = " << center <<endl;
                 
-                cv::circle(binary,
-                        center,
-                        3, cv::Scalar(255, 0, 0), -1);
+            cv::circle(binary,
+                    center,
+                    3, cv::Scalar(255, 0, 0), -1);
+                // line(binary, Point(100,100), center, Scalar(255, 0, 0), 3);
                 // cv::Point2f* vertices1 = new cv::Point2f[4];
                 // armor.l.points(vertices1);
 
