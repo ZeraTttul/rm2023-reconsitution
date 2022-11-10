@@ -6,6 +6,7 @@
 #include "opencv2/opencv.hpp"
 #include <queue>
 #include <vector>
+#include "../define/define.h"
 
 using namespace std;
 using namespace cv;
@@ -38,6 +39,7 @@ private:
     const cv::Mat StructuringElement5 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5));
     const cv::Mat StructuringElement7 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(7, 7));
     const cv::Mat StructuringElement9 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(9, 9));
+    const cv::Mat StructuringElement35 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(3, 5));
 
     static Rgb &instance() {
         static Rgb util;
@@ -63,6 +65,9 @@ private:
     static inline cv::Mat structuringElement9() {
         return instance().StructuringElement9;
     }
+    static inline cv::Mat structuringElement35() {
+        return instance().StructuringElement35;
+    }
 
 public:
 
@@ -72,6 +77,7 @@ public:
      * @param ownColor 己方颜色
      */
 
-    Mat imagePreprocess(const cv::Mat &src, bool flag);
+    Mat imagePreprocess_rgb(const cv::Mat &src, bool flag);
     Mat EqualHist(Mat image);
+    Mat imagePreprocess_gray(const Mat &src, bool flag);
 };
