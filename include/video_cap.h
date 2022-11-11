@@ -9,6 +9,8 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 
+// E:\\VSCode\\production\\rgb\\Video\\blueVideo5.mp4
+
 class VideoCap{
 private:
     // const std::string m_filePath = "../testVideo/blueVideo3.mp4";       // 用来存储测试视频路，需要调用摄像头的时候删除后面的路径即可

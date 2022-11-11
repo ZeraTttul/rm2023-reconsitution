@@ -6,12 +6,13 @@
 #define RM2023_RECONSITUTION_DEFINE_H
 
 
-#define CAP_INDEX 0             // 选择摄像头，默认是 0
+#define CAP_INDEX 2             // 选择摄像头，默认是 0
 //#define CLOCK                   // 计算推理时间用
 #define IMSHOW                  // 需要可视化时使用
-#define BLUE                    // 识别蓝色，用时取消注释
-// #define RED                     // 识别红色，用时取消注释
+#define DETECT_BLUE            // 识别蓝色，用时取消注释
+// #define DETECT_RED         // 识别红色，用时取消注释
 #define PREDICT                 // 追踪器
-
+#define RED 1                   //用于rgb文件颜色识别 
+#define BLUE 0 
 
 #endif //RM2023_RECONSITUTION_DEFINE_H

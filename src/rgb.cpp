@@ -1,3 +1,8 @@
+//
+// Change by JYSimilar on 2022/9/25
+//
+// 该文件已整理完成
+
 #include "opencv2/opencv.hpp"
 #include "../include/rgb.h"
 
@@ -5,7 +10,7 @@ using namespace std;
 using namespace cv;
 
 //图片准备
-Mat Rgb::imagePreprocess(const cv::Mat &src, bool flag) {
+Mat Rgb::imagePreprocess_rgb(const cv::Mat &src, bool enemyColor) {
 
     _src = src;
 
@@ -13,7 +18,7 @@ Mat Rgb::imagePreprocess(const cv::Mat &src, bool flag) {
 
     cv::split(_src, _splitSrc);
 
-    if (flag == 1) {
+    if (enemyColor == RED) {
         //识别红色
 
         //削减亮度
@@ -26,15 +31,14 @@ Mat Rgb::imagePreprocess(const cv::Mat &src, bool flag) {
 
         LUT(_src, BrightnessLut, _src);
 
-        //分离色彩通道
-        cv::cvtColor(_src, _graySrc, cv::COLOR_BGR2GRAY);
-
-        //高斯滤波
-        GaussianBlur( _graySrc,
-                      _graySrc,
+        GaussianBlur( _src,
+                      _src,
                       Size(11, 11),
                       0,
-                      0);
+                      0 );
+
+        //分离色彩通道
+        cv::cvtColor(_src, _graySrc, cv::COLOR_BGR2GRAY);
 
         //灰度二值化
         cv::threshold(_graySrc,
@@ -62,20 +66,21 @@ Mat Rgb::imagePreprocess(const cv::Mat &src, bool flag) {
 
         cv::erode(_separationSrcGreen,
                   _separationSrcGreen,
-                  Rgb:: structuringElement3());
+                  Rgb:: structuringElement2());
 
         cv::dilate(_separationSrcGreen,
                    _separationSrcGreen,
-                   Rgb:: structuringElement5());
+                   Rgb:: structuringElement3());
 
         imshow("1",_separationSrc);
 
         //逻辑与获得最终二值化图像
-        _maxColor = _separationSrc & _graySrc;
+        _maxColor = _separationSrc & _graySrc & _separationSrcGreen;
 
         cv::dilate(_maxColor, _maxColor,Rgb::structuringElement3());
 
-    } else {
+    } else if(enemyColor == BLUE)
+    {
         //识别蓝色
 
         //削减亮度
@@ -88,15 +93,27 @@ Mat Rgb::imagePreprocess(const cv::Mat &src, bool flag) {
 
         LUT(_src, BrightnessLut, _src);
 
+        //高斯滤波
+        GaussianBlur( _src,
+                      _src,
+                      Size(11, 11),
+                      0,
+                      0 );
+
         //分离色彩通道
         cv::cvtColor(_src, _graySrc, cv::COLOR_BGR2GRAY);
 
         //高斯滤波
-        GaussianBlur( _graySrc,
-                      _graySrc,
-                      Size(11, 11),
-                      0,
-                      0 );
+        // GaussianBlur( _graySrc,
+        //               _graySrc,
+        //               Size(11, 11),
+        //               0,
+        //               0 );
+        
+
+        //直方图均质化 能把灰度图像几乎变回没灰度的时候
+        // Mat _equalseparaSrc;
+        // _equalseparaSrc = EqualHist(_graySrc);
 
         //灰度二值化
         cv::threshold(_graySrc,
@@ -104,11 +121,17 @@ Mat Rgb::imagePreprocess(const cv::Mat &src, bool flag) {
                       _para.grayThreshold_BLUE,
                       255,
                       cv::THRESH_BINARY);
+                      
+        imshow("graysrc", _graySrc);
 
         //红蓝通道相减
         cv::subtract(_splitSrc[0],
                      _splitSrc[2],
                      _separationSrc);
+
+        //Mat _grayseparaSrc;
+        // equalizeHist(_grayseparaSrc, _equalseparaSrc);
+        //imshow("_separationSrc", _separationSrc);
 
         //红蓝二值化
         cv::threshold(_separationSrc,
@@ -117,16 +140,40 @@ Mat Rgb::imagePreprocess(const cv::Mat &src, bool flag) {
                       255,
                       cv::THRESH_BINARY);
 
+        //imshow("separationsrc",_separationSrc);
+
         cv::subtract(_splitSrc[0], _splitSrc[1], _separationSrcGreen);
         cv::erode(_separationSrcGreen, _separationSrcGreen, Rgb::structuringElement3());
         cv::dilate(_separationSrcGreen, _separationSrcGreen, Rgb::structuringElement5());
 
         //逻辑与获得最终二值化图像
-        _maxColor = _separationSrc & _graySrc ;
+        _maxColor = _separationSrc & _graySrc & _separationSrcGreen;
 
         //膨胀
-        cv::dilate(_maxColor, _maxColor, Rgb::structuringElement7());
+        cv::dilate(_maxColor, _maxColor, Rgb::structuringElement5());
 
     }
     return _maxColor;
+}
+
+Mat Rgb:: EqualHist(Mat image)
+{
+    Mat equalImg;
+    Mat grayImage;
+    equalizeHist(image, equalImg);
+    imshow("equalImg", equalImg);
+    return equalImg;
+}
+
+Mat Rgb:: imagePreprocess_gray(const Mat &frame, bool flag)
+{
+    Mat gray;
+    cvtColor(frame, gray, COLOR_BGR2GRAY);
+    threshold(gray, gray, 110, 255, THRESH_BINARY);
+    erode(gray, gray, StructuringElement35); //去除噪点，考虑不要腐蚀(在黑暗的环境不需要，白天环境可能需要)
+    dilate(gray, gray, StructuringElement35);
+
+    imshow("gray", gray);
+    
+    return gray;
 }

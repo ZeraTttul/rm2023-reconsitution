@@ -28,11 +28,11 @@
  */
 void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<armors>&armors_possible){
     Rgb rgb;
-#ifdef BLUE
-    frame = rgb.imagePreprocess(frame, 0);//flag=1识别红色 else 识别蓝色
+#ifdef DETECT_BLUE
+    frame = rgb.imagePreprocess_gray(frame, BLUE);//flag=1识别红色 else 识别蓝色
 #endif
-#ifdef RED
-    frame = rgb.imagePreprocess(frame, 1);//flag=1识别红色 else 识别蓝色
+#ifdef DETECT_RED
+    frame = rgb.imagePreprocess_rgb(frame, RED);//flag=1识别红色 else 识别蓝色
 #endif
 
 #ifdef IMSHOW
@@ -158,7 +158,7 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
                             cv::Scalar(0, 255, 0),
                             4);
                 }
-
+                
                 cv::Point2f* vertices2 = new cv::Point2f[4];
                 rectA.points(vertices2);
 

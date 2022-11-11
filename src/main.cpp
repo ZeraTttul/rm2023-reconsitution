@@ -23,6 +23,7 @@ int main() {
 #endif
         cap.algorithmInterface();
         frame = cap.getCurrentImage();
+        //resize(frame1, frame, frame.size(), 0.5, 0.5);
         frame.copyTo(binary);       //展示效果
         frame.copyTo(frame1);
 
@@ -46,7 +47,8 @@ int main() {
             imshow("okey", binary);
 #endif
 
-            cv::waitKey(30);
+            cv::waitKey(100);
+            // if(waitKey(1) >= 0) break;
 #ifdef CLOCK
             finish = clock();
             double totalTime = (double)(finish - start) / CLOCKS_PER_SEC;
