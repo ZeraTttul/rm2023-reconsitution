@@ -63,9 +63,10 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat binary)
 		while(!m_predict_que.empty()) m_predict_que.pop();
 		m_armor_que.push(armor);
 
-		if(0)                                                           //装甲板中心点瞬移 x 个装甲板宽度后(暂定方案) 
+		if(fabs(armor.center.x - m_armor_que.front().center.x) > 2*armor.length)                                                           //装甲板中心点瞬移 x 个装甲板宽度后(暂定方案) 
 		{                                                               //认为是一块新的装甲板 init卡尔曼滤波器
 			m_k.reInit(m_k.m_KF);
+			cout << "new armor" <<endl;
 			while(!m_armor_que.empty()) m_armor_que.pop();
 		}                                                          
 
