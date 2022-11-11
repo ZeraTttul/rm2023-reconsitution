@@ -165,7 +165,7 @@ Mat Rgb:: EqualHist(Mat image)
     return equalImg;
 }
 
-Mat Rgb:: imagePreprocess_gray(const Mat &frame, bool flag)
+void Rgb:: imagePreprocess_gray(const Mat &frame)
 {
     Mat gray;
     cvtColor(frame, gray, COLOR_BGR2GRAY);
@@ -174,6 +174,26 @@ Mat Rgb:: imagePreprocess_gray(const Mat &frame, bool flag)
     dilate(gray, gray, StructuringElement35);
 
     imshow("gray", gray);
-    
-    return gray;
+}
+
+bool Rgb:: isRightColor(const cv::Mat &frame, const RotatedRect &rrect, bool enemyColor)
+{
+    cv::Rect rect = rrect.boundingRect();
+    rect.x = rect.x < 0 ? 0 : (rect.x > frame.cols ? frame.cols : rect.x);
+    rect.y = rect.y < 0 ? 0 : (rect.y > frame.rows ? frame.rows : rect.y);
+    rect.width = rect.x + rect.width > frame.cols ? frame.cols - rect.x : rect.width;
+    rect.height = rect.y + rect.height > frame.rows ? frame.rows - rect.y : rect.height;
+    cv::Scalar roi_color_bgr_mean = mean(frame(rect));
+    if (enemyColor == BLUE)
+    {
+        // std::cout << "roi_color: " << roi_color_bgr_mean[0] - roi_color_bgr_mean[1] << " " << roi_color_bgr_mean[0] - roi_color_bgr_mean[2] << std::endl;
+
+        return roi_color_bgr_mean[0] > roi_color_bgr_mean[2] &&
+               roi_color_bgr_mean[0] > roi_color_bgr_mean[1];
+    }
+    else
+    {
+        // std::cout << "roi_color: " << roi_color_bgr_mean[2] - roi_color_bgr_mean[1] << " " << roi_color_bgr_mean[2] - roi_color_bgr_mean[0] << std::endl;
+        return roi_color_bgr_mean[2] > roi_color_bgr_mean[0] && roi_color_bgr_mean[2] > roi_color_bgr_mean[1];
+    }
 }

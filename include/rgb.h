@@ -79,5 +79,6 @@ public:
 
     Mat imagePreprocess_rgb(const cv::Mat &src, bool flag);
     Mat EqualHist(Mat image);
-    Mat imagePreprocess_gray(const Mat &src, bool flag);
+    void imagePreprocess_gray(const Mat &src);
+    bool isRightColor(const cv::Mat &frame, const RotatedRect &rrect, bool enemyColor);
 };

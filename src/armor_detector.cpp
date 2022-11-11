@@ -28,6 +28,7 @@
  */
 void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<armors>&armors_possible){
     Rgb rgb;
+/*
 #ifdef DETECT_BLUE
     frame = rgb.imagePreprocess_gray(frame, BLUE);//flag=1识别红色 else 识别蓝色
 #endif
@@ -38,6 +39,8 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
 #ifdef IMSHOW
     imshow("double", frame);
 #endif
+*/
+    rgb.imagePreprocess_gray(frame);
     std::vector<std::vector<cv::Point> > contours;               //画出轮廓
     std::vector<std::vector<cv::Point> > select_contours;        //筛选出的正确的灯条轮廓
     findContours(frame,
@@ -49,6 +52,7 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
     m_hi=-1;                                          //可能的装甲板的数量 视觉祖传的hi 没有特殊原因不准修改！
 
     for (size_t i = 0; i < contours.size(); i++) {
+
 
         float light_contour_area = contourArea(contours[i]);
 
@@ -64,10 +68,10 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
 
         cv::RotatedRect rec = minAreaRect(contours[i]);                                       //最小外接矩阵拟合
         float angle = rec.size.width > rec.size.height ? rec.angle - 90 : rec.angle;                //通过矩形角度筛出一些非灯条轮廓
-        if(angle>20||angle<-20)continue;
+        if(angle>20||angle<-20) continue;
 
         float ratio=MAX(rec.size.width, rec.size.height) / MIN(rec.size.width, rec.size.height);
-        if(ratio>15||ratio<1)continue;
+        if(ratio>15||ratio<1) continue;
 
         select_contours.push_back(contours[i]);                                                     //存入
     }
@@ -77,6 +81,15 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
     {
         drawContours(frame, select_contours, static_cast<int>(i), cv::Scalar(0), 2);
         cv::RotatedRect rect = minAreaRect(select_contours[i]);
+
+#ifdef DETECT_BLUE
+        if(!rgb.isRightColor(frame, rect, BLUE)) continue;//flag=1识别红色 else 识别蓝色
+#endif
+#ifdef DETECT_RED
+        if(!rgb.isRightColor(frame, rect, BLUE)) continue;//flag=1识别红色 else 识别蓝色
+#endif
+
+
         if (i == select_contours.size() - 1) {
             continue;
         }
