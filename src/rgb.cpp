@@ -156,7 +156,7 @@ Mat Rgb::imagePreprocess_rgb(const cv::Mat &src, bool enemyColor) {
     return _maxColor;
 }
 
-Mat Rgb:: EqualHist(Mat image)
+Mat Rgb:: EqualHist(Mat image) //直方图均衡化
 {
     Mat equalImg;
     Mat grayImage;
@@ -165,13 +165,24 @@ Mat Rgb:: EqualHist(Mat image)
     return equalImg;
 }
 
-void Rgb:: imagePreprocess_gray(const Mat &frame)
+void Rgb:: imagePreprocess_gray(Mat &frame)
 {
+    //削减亮度
+    Mat BrightnessLut(1, 256, CV_8UC1);
+
+    for (int i = 0; i < 256; i++) {
+        //you can change "_para.imageBright_BLUE" to adjust bright level(in the file rgb.h)
+        BrightnessLut.at<uchar>(i) = saturate_cast<uchar>((double)i + _para.imageBright_BLUE);
+    }
+
+    LUT(frame, BrightnessLut, frame);
+
     Mat gray;
     cvtColor(frame, gray, COLOR_BGR2GRAY);
     threshold(gray, gray, 110, 255, THRESH_BINARY);
     erode(gray, gray, StructuringElement35); //去除噪点，考虑不要腐蚀(在黑暗的环境不需要，白天环境可能需要)
     dilate(gray, gray, StructuringElement35);
+    gray.copyTo(frame);
 
     imshow("gray", gray);
 }

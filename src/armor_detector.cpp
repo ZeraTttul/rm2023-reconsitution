@@ -30,7 +30,7 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
     Rgb rgb;
 /*
 #ifdef DETECT_BLUE
-    frame = rgb.imagePreprocess_gray(frame, BLUE);//flag=1识别红色 else 识别蓝色
+    frame = rgb.imagePreprocess_rgb(frame, BLUE);//flag=1识别红色 else 识别蓝色
 #endif
 #ifdef DETECT_RED
     frame = rgb.imagePreprocess_rgb(frame, RED);//flag=1识别红色 else 识别蓝色
@@ -41,6 +41,7 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
 #endif
 */
     rgb.imagePreprocess_gray(frame);
+    // frame = rgb.imagePreprocess_rgb(frame, BLUE);//flag=1识别红色 else 识别蓝色
     std::vector<std::vector<cv::Point> > contours;               //画出轮廓
     std::vector<std::vector<cv::Point> > select_contours;        //筛选出的正确的灯条轮廓
     findContours(frame,
@@ -82,17 +83,17 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
         drawContours(frame, select_contours, static_cast<int>(i), cv::Scalar(0), 2);
         cv::RotatedRect rect = minAreaRect(select_contours[i]);
 
+        if (i == select_contours.size() - 1) {
+            continue;
+        }
+
+        
 #ifdef DETECT_BLUE
         if(!rgb.isRightColor(frame, rect, BLUE)) continue;//flag=1识别红色 else 识别蓝色
 #endif
 #ifdef DETECT_RED
         if(!rgb.isRightColor(frame, rect, BLUE)) continue;//flag=1识别红色 else 识别蓝色
 #endif
-
-
-        if (i == select_contours.size() - 1) {
-            continue;
-        }
 
         for (int j = i + 1; j < select_contours.size(); j++)
         {
