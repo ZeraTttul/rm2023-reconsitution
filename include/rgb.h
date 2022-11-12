@@ -30,6 +30,7 @@ private:
         int separationThreshold_BLUE = 90;                    //色彩分离二值化阈值-蓝色
         float imageBright_RED = -80;                         //亮度削减-红色
         float imageBright_BLUE = -50;                         //亮度削减-蓝色
+        float imageBright_GRAY = -50;                         //亮度削减-灰度二值化
     };
 
     BuffPara _para;

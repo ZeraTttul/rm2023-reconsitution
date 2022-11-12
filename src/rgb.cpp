@@ -172,7 +172,7 @@ void Rgb:: imagePreprocess_gray(Mat &frame)
 
     for (int i = 0; i < 256; i++) {
         //you can change "_para.imageBright_BLUE" to adjust bright level(in the file rgb.h)
-        BrightnessLut.at<uchar>(i) = saturate_cast<uchar>((double)i + _para.imageBright_BLUE);
+        BrightnessLut.at<uchar>(i) = saturate_cast<uchar>((double)i + _para.imageBright_GRAY);
     }
 
     LUT(frame, BrightnessLut, frame);
