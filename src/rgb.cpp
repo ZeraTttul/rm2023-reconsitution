@@ -122,7 +122,7 @@ Mat Rgb::imagePreprocess_rgb(const cv::Mat &src, bool enemyColor) {
                       255,
                       cv::THRESH_BINARY);
                       
-        imshow("graysrc", _graySrc);
+        // imshow("graysrc", _graySrc);
 
         //红蓝通道相减
         cv::subtract(_splitSrc[0],

@@ -28,20 +28,19 @@
  */
 void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<armors>&armors_possible){
     Rgb rgb;
-/*
-#ifdef DETECT_BLUE
-    frame = rgb.imagePreprocess_rgb(frame, BLUE);//flag=1识别红色 else 识别蓝色
-#endif
-#ifdef DETECT_RED
-    frame = rgb.imagePreprocess_rgb(frame, RED);//flag=1识别红色 else 识别蓝色
-#endif
 
-#ifdef IMSHOW
-    imshow("double", frame);
-#endif
-*/
-    rgb.imagePreprocess_gray(frame);
-    // frame = rgb.imagePreprocess_rgb(frame, BLUE);//flag=1识别红色 else 识别蓝色
+// #ifdef DETECT_BLUE
+//     frame = rgb.imagePreprocess_rgb(frame, BLUE);//flag=1识别红色 else 识别蓝色
+// #endif
+// #ifdef DETECT_RED
+//     frame = rgb.imagePreprocess_rgb(frame, RED);//flag=1识别红色 else 识别蓝色
+// #endif
+
+// #ifdef IMSHOW
+//     imshow("double", frame);
+// #endif
+
+    // rgb.imagePreprocess_gray(frame);
     std::vector<std::vector<cv::Point> > contours;               //画出轮廓
     std::vector<std::vector<cv::Point> > select_contours;        //筛选出的正确的灯条轮廓
     findContours(frame,
