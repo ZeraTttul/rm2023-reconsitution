@@ -47,7 +47,7 @@ int main() {
             imshow("okey", binary);
 #endif
 
-            cv::waitKey(100);
+            cv::waitKey(30);
             // if(waitKey(1) >= 0) break;
 #ifdef CLOCK
             finish = clock();

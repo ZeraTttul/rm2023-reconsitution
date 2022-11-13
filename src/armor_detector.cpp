@@ -40,7 +40,7 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
 //     imshow("double", frame);
 // #endif
 
-    // rgb.imagePreprocess_gray(frame);
+    rgb.imagePreprocess_gray(frame);
     std::vector<std::vector<cv::Point> > contours;               //画出轮廓
     std::vector<std::vector<cv::Point> > select_contours;        //筛选出的正确的灯条轮廓
     findContours(frame,
