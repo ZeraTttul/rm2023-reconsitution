@@ -23,6 +23,7 @@ int main() {
 #endif
         cap.algorithmInterface();
         frame = cap.getCurrentImage();
+        // frame = imread("D:\\QQ\\1023342887\\FileRecv\\car.jpg");
         //resize(frame1, frame, frame.size(), 0.5, 0.5);
         frame.copyTo(binary);       //展示效果
         frame.copyTo(frame1);
@@ -42,13 +43,14 @@ int main() {
         if(!Armors.empty()){
             SOLVEPNP pnp;
             pnp.caculate(finalarmor);
+        }
 
 #ifdef IMSHOW
             imshow("okey", binary);
 #endif
 
             cv::waitKey(30);
-            // if(waitKey(1) >= 0) break;
+            // if(waitKey(30) >= 0) break;
 #ifdef CLOCK
             finish = clock();
             double totalTime = (double)(finish - start) / CLOCKS_PER_SEC;
@@ -62,7 +64,7 @@ int main() {
             }
             std::cout << "Time" << totalTime << std::endl;
 #endif
-        }
+        
     }
     return 0;
 }

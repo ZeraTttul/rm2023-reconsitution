@@ -179,7 +179,7 @@ void Rgb:: imagePreprocess_gray(Mat &frame)
 
     Mat gray;
     cvtColor(frame, gray, COLOR_BGR2GRAY);
-    threshold(gray, gray, 110, 255, THRESH_BINARY);
+    threshold(gray, gray, 100, 255, THRESH_BINARY);
     erode(gray, gray, StructuringElement35); //去除噪点，考虑不要腐蚀(在黑暗的环境不需要，白天环境可能需要)
     dilate(gray, gray, StructuringElement35);
     gray.copyTo(frame);
