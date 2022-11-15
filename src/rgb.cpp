@@ -47,6 +47,7 @@ Mat Rgb::imagePreprocess_rgb(const cv::Mat &src, bool enemyColor) {
                       255,
                       cv::THRESH_BINARY);
 
+
         //红蓝通道相减
         cv::subtract(_splitSrc[2],
                      _splitSrc[0],
@@ -72,7 +73,7 @@ Mat Rgb::imagePreprocess_rgb(const cv::Mat &src, bool enemyColor) {
                    _separationSrcGreen,
                    Rgb:: structuringElement3());
 
-        imshow("1",_separationSrc);
+        // imshow("1",_separationSrc);
 
         //逻辑与获得最终二值化图像
         _maxColor = _separationSrc & _graySrc & _separationSrcGreen;
@@ -122,7 +123,7 @@ Mat Rgb::imagePreprocess_rgb(const cv::Mat &src, bool enemyColor) {
                       255,
                       cv::THRESH_BINARY);
                       
-        // imshow("graysrc", _graySrc);
+        // imshow("gray", _graySrc);
 
         //红蓝通道相减
         cv::subtract(_splitSrc[0],
@@ -141,6 +142,7 @@ Mat Rgb::imagePreprocess_rgb(const cv::Mat &src, bool enemyColor) {
                       cv::THRESH_BINARY);
 
         //imshow("separationsrc",_separationSrc);
+        // imshow("chanel", _separationSrc);
 
         cv::subtract(_splitSrc[0], _splitSrc[1], _separationSrcGreen);
         cv::erode(_separationSrcGreen, _separationSrcGreen, Rgb::structuringElement3());
