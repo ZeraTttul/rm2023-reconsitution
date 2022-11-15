@@ -1,5 +1,7 @@
 // todo: 加注释
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "EndlessLoop"
 #include <iostream>
 #include <vector>
 #include "../define/define.h"
@@ -42,15 +44,13 @@ int main() {
         if(!Armors.empty()){
             SOLVEPNP pnp;
             pnp.caculate(finalarmor);
-
-#ifdef IMSHOW
-            imshow("okey", binary);
-#endif
-
-            cv::waitKey(30);
             // if(waitKey(1) >= 0) break;
+        }
+#ifdef IMSHOW
+        imshow("okey", binary);
+#endif
 #ifdef CLOCK
-            finish = clock();
+        finish = clock();
             double totalTime = (double)(finish - start) / CLOCKS_PER_SEC;
             sum += totalTime;
             times += 1;
@@ -62,7 +62,10 @@ int main() {
             }
             std::cout << "Time" << totalTime << std::endl;
 #endif
-        }
+
+        cv::waitKey(30);
     }
     return 0;
 }
+
+#pragma clang diagnostic pop
