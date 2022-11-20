@@ -12,6 +12,10 @@
 #include "../include/armor_tracker.h"
 
 int main() {
+#ifdef NX
+    Serial uart(BR115200, WORDLENGTH_8B, STOPBITS_1, PARITY_NONE, HWCONTROL_NONE);
+    uart.sOpen("/dev/ttyTHS2");
+#endif
     int times = 0;
     double sum = 0;
     clock_t start, finish;
