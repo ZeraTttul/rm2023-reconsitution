@@ -19,7 +19,7 @@ public:
     float boardw;
     float boardh;
     float angle_diff;                //左右灯条角度差
-    cv::Point2f corner[5];               //装甲板四个角点
+    cv::Point2f corner[5];               //装甲板四个角点   [1][3]为对角
     float board_ratio;               //装甲板长宽比
     cv::Point2f center;                  //装甲板中心点
 };

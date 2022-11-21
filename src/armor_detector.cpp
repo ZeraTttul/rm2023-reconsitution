@@ -92,7 +92,7 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
         if(!rgb.isRightColor(frame, rect, BLUE)) continue;//flag=1识别红色 else 识别蓝色
 #endif
 #ifdef DETECT_RED
-        if(!rgb.isRightColor(frame, rect, BLUE)) continue;//flag=1识别红色 else 识别蓝色
+        if(!rgb.isRightColor(frame, rect, RED)) continue;//flag=1识别红色 else 识别蓝色
 #endif
 
         for (int j = i + 1; j < select_contours.size(); j++)

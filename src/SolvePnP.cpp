@@ -52,7 +52,7 @@ void SOLVEPNP ::caculate(armors finalarmor) {
 
         double final_angle_x = angle_x / P * 180;
         double final_angle_y = angle_y / P * 180;
-        //cout << "final_distance  " << final_distance<<endl;
+        // cout << "final_distance  " << final_distance<<endl;
 #ifdef NX
         if(tmp > 10)
             uart.sSendData(final_angle_x, final_angle_y,final_distance,1);
