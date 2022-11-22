@@ -1,7 +1,7 @@
 //
 // Created by JYSimilar on 2022/11/3.
 //
-// todo: 加注释
+//
 
 #include "../include/video_cap.h"
 
@@ -14,7 +14,7 @@ VideoCap :: VideoCap() {
     }
 }
 
-void VideoCap :: algorithmInterface() {
+void VideoCap :: runCap() {
     m_cap.read(m_frame);
 }
 

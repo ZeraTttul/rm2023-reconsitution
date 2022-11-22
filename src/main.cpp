@@ -10,6 +10,7 @@
 #include "../include/SolvePnP.h"
 #include "../include/find_armor_factory.h"
 #include "../include/armor_tracker.h"
+#include "../include/resistance_top.h"
 
 int main() {
     int times = 0;
@@ -18,18 +19,21 @@ int main() {
     VideoCap cap;
     cv::Mat frame, binary, frame1;
     ArmorTracker trackArmor;
-    while (1) {
+    FindArmorFactory findArmor;
+    resistanceTop resT;
+    bool isTop = false;
+    while (true) {
         bool isDetected = false;
 #ifdef CLOCK
         start = clock();
 #endif
-        cap.algorithmInterface();
+        cap.runCap();
         frame = cap.getCurrentImage();
         //resize(frame1, frame, frame.size(), 0.5, 0.5);
         frame.copyTo(binary);       //展示效果
         frame.copyTo(frame1);
 
-        FindArmorFactory findArmor(frame, binary);
+        findArmor.findArmorFactory(frame, binary);
         armors finalarmor = findArmor.getFinalArmor();
         std::vector<armors> Armors = findArmor.getArmors();
         if (!Armors.empty()) {
@@ -40,11 +44,16 @@ int main() {
 		// if(armors.size()!=0)
         // m_k.predict(finalarmor,binary);
 #endif
+        bool isChangeArmor = false;                      // roi判断是否切换装甲，没写呢
 
         if(!Armors.empty()){
             SOLVEPNP pnp;
             pnp.caculate(finalarmor);
-            // if(waitKey(1) >= 0) break;
+
+            // 反陀螺
+            resT.resTop(finalarmor.center, 2, isChangeArmor);
+            isTop = resT.isTopStatus();
+            cout << isTop << endl;
         }
 #ifdef IMSHOW
         imshow("okey", binary);

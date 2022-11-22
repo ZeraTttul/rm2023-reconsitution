@@ -77,7 +77,7 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat binary)
         // cout << "armor.center = " << armor.center <<endl;
 		m_predict_que.push(armor);
 	
-        cout << "armor.center = " << predict_pt <<endl;
+        // cout << "armor.center = " << predict_pt <<endl;
         circle(binary, predict_pt, 3, Scalar(34, 255, 255), -1);
         // cout << "done" << endl;
         // line(binary, Point(100,100), predict_pt, Scalar(255, 0, 0), 3);

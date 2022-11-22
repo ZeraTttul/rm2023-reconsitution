@@ -18,7 +18,7 @@ private:
     bool m_isDetected = false;
 
 public:
-    FindArmorFactory(cv::Mat &frame, cv::Mat &binary);
+    void findArmorFactory(cv::Mat &frame, cv::Mat &binary);
     struct armors getFinalArmor();
     std::vector<armors> getArmors();
 
