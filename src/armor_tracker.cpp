@@ -12,7 +12,7 @@
 #include "../include/armor_tracker.h"
 #include "../define/define.h"
 
-void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat binary)
+void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat frame, Mat originFrame)
 {
 	armors armor = final_armor;
 	Point2f center;
@@ -32,7 +32,7 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat binary)
                 m_predict_que.push(armor);
                 m_predictCount++;
 #ifdef IMSHOW
-                cv::circle(binary,
+                cv::circle(originFrame,
                     center,
                     3, cv::Scalar(255, 0, 0), -1);
 #endif
@@ -48,13 +48,13 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat binary)
         m_predictCount = 0;
 		m_armor_que.push(armor);
 
-		if(isArmorSwitched(armor, binary))                                                           //装甲板中心点瞬移 x 个装甲板宽度后(暂定方案) 
+		if(isArmorSwitched(armor, frame, originFrame))                                                           //装甲板中心点瞬移 x 个装甲板宽度后(暂定方案) 
 		//fabs(armor.center.x - m_armor_que.front().center.x) > 2*armor.length
 		{                                                               //认为是一块新的装甲板 init卡尔曼滤波器
 			// m_k.reInit(m_k.m_KF);
 			// cout << "new armor" <<endl;
 			// while(!m_armor_que.empty()) m_armor_que.pop();
-            imshow("roi", binary);
+            imshow("roi", originFrame);
 		}                                                          
 
 		Point2f predict_pt = m_k.kal(armor.center.x, armor.center.y);
@@ -63,21 +63,29 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat binary)
 		m_predict_que.push(armor);
 	
         cout << "armor.center = " << predict_pt <<endl;
-        circle(binary, predict_pt, 3, Scalar(34, 255, 255), -1);
+        circle(originFrame, predict_pt, 3, Scalar(34, 255, 255), -1);
         // cout << "done" << endl;
-        // line(binary, Point(100,100), predict_pt, Scalar(255, 0, 0), 3);
+        // line(originFrame, Point(100,100), predict_pt, Scalar(255, 0, 0), 3);
 
 		final_armor = armor;
 
     }
 }
 
-bool ArmorTracker:: isArmorSwitched(armors armor, Mat frame)
+bool ArmorTracker:: isArmorSwitched(armors armor, Mat frame, Mat originFrame)
 {
-    Rect ROIRect = Rect(armor.corner[1], armor.corner[3]) + Size2i(target_change_threshold, target_change_threshold) - Point2i(50, 50);
-    rectangle(frame, ROIRect, Scalar(255, 0, 0));
+    Size2i roi_size = Size2i(m_roi_factor_w * (int)armor.boardw, m_roi_factor_h * (int)armor.boardh);
+    // cout << size <<endl;
+    Point2i roi_point = Point2i((m_roi_factor_w/2) * armor.boardw, (m_roi_factor_h/2) * armor.boardh);
+    // cout << point <<endl;
+    Rect ROIRect = Rect(armor.corner[1], armor.corner[3]) + roi_size - roi_point ;
+#ifdef IMSHOW
+    rectangle(originFrame, ROIRect, Scalar(255, 0, 0));
+#endif
     Mat ROIImage(frame, ROIRect);
-    return 1;
+    imshow("roiframe", frame);
+
+    return true;
 }
 
 #endif

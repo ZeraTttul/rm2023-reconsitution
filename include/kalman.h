@@ -38,7 +38,7 @@ public:
     cv::KalmanFilter m_KF;
     kalman();
     void reInit(KalmanFilter &KF);
-    void predict(armors &finalarmor, cv::Mat binary);
+    void predict(armors &finalarmor, cv::Mat originframe);
     cv::Point2f kal(float x, float y);
 };
 #endif

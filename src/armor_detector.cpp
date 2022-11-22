@@ -23,10 +23,10 @@
 /**
  * @brief 筛选灯条并组合 然后筛选出可能的装甲板
  * @param Mat frame
- * @param Mat binary
+ * @param Mat originFrame
  * @param vector &armors_possible 有可能是装甲板的灯条组合
  */
-void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<armors>&armors_possible){
+void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat originFrame, std::vector<armors>&armors_possible){
     Rgb rgb;
 
 // #ifdef DETECT_BLUE
@@ -166,7 +166,7 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
 
                 for (int j = 0; j < 4; j++)
                 {
-                    cv::line(binary,
+                    cv::line(originFrame,
                             vertices1[j],
                             vertices1[(j + 1) % 4],
                             cv::Scalar(0, 255, 0),
@@ -178,7 +178,7 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
 
                 for (int j = 0; j < 4; j++)
                 {
-                    cv::line(binary,
+                    cv::line(originFrame,
                             vertices2[j],
                             vertices2[(j + 1) % 4],
                             cv::Scalar(0, 255, 0),
@@ -193,11 +193,11 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
 
 /**
  * @brief 筛选出正确的装甲板
- * @param {Mat} binary
+ * @param {Mat} originFrame
  * @param {vector} &armors_possible
  * @param {vector} &armors 正确的装甲板
  */
-void ArmorDetector::selectrightarmor(std::vector<armors> &armors_possible, std::vector<armors> &armors, cv::Mat binary)
+void ArmorDetector::selectrightarmor(std::vector<armors> &armors_possible, std::vector<armors> &armors, cv::Mat originFrame)
 {
     std::vector<bool> is_armor(armors_possible.size(), true);
     int kkk=-1;
@@ -221,7 +221,7 @@ void ArmorDetector::selectrightarmor(std::vector<armors> &armors_possible, std::
         imagePoints.push_back(Point2f(x3, y3));
 
         for (int n = 0; n < imagePoints.size(); n++) {
-            circle(binary, imagePoints[n], 3, Scalar(255, 0, 0), -1, 8);
+            circle(originFrame, imagePoints[n], 3, Scalar(255, 0, 0), -1, 8);
         }
 #endif
 
@@ -279,9 +279,9 @@ void ArmorDetector::selectrightarmor(std::vector<armors> &armors_possible, std::
  * @description: 选出有效的装甲板
  * @param {armors} &final_armor 有效的装甲板
  * @param {vector} armors
- * @param {Mat} binary
+ * @param {Mat} originFrame
  */
-void ArmorDetector::selectfinalarmor(armors &final_armor, std::vector<armors> &armors, cv::Mat binary)
+void ArmorDetector::selectfinalarmor(armors &final_armor, std::vector<armors> &armors, cv::Mat originFrame)
 {
     m_maxh=100;
     m_t=-1;
@@ -297,7 +297,7 @@ void ArmorDetector::selectfinalarmor(armors &final_armor, std::vector<armors> &a
     final_armor = armors[m_t];
 
 #ifdef IMSHOW
-    cv::circle(binary,final_armor.center,15, cv::Scalar(0, 0, 255), 4);
+    cv::circle(originFrame,final_armor.center,15, cv::Scalar(0, 0, 255), 4);
 #endif
 }
 

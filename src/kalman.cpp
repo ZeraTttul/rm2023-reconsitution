@@ -85,13 +85,13 @@ cv::Point2f kalman::kal(float x,float y)
 /**
  * @brief 调用卡尔曼预测
  * @param {armors} &finalarmor
- * @param {Mat} binary
+ * @param {Mat} originFrame
  * @param {kalman} &m_k
  */
-void kalman::predict(armors &finalarmor,Mat binary)
+void kalman::predict(armors &finalarmor,Mat originFrame)
 {
         cv::Point2f centers=finalarmor.center;
         cv::Point predict_pt = kal(centers.x,centers.y);
-        cv::circle(binary, predict_pt, 3, cv::Scalar(34, 255, 255), -1);
+        cv::circle(originFrame, predict_pt, 3, cv::Scalar(34, 255, 255), -1);
 }
 #endif

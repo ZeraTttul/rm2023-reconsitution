@@ -10,11 +10,12 @@ class ArmorTracker
         queue<armors> m_armor_que;
         queue<armors> m_predict_que;
         kalman m_k;
-        float target_change_threshold = 100;
+        float m_roi_factor_w = 3; //roi系数
+        float m_roi_factor_h = 4;
         int m_predictCount = 0;
     public:
-        void track(armors &armor, bool isDetected, Mat binary);
-        bool isArmorSwitched(armors armor, Mat frame);
+        void track(armors &armor, bool isDetected,Mat frame, Mat originFrame);
+        bool isArmorSwitched(armors armor, Mat frame, Mat originFrame);
 };
 
 

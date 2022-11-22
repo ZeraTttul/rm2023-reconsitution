@@ -20,7 +20,7 @@ int main() {
     double sum = 0;
     clock_t start, finish;
     VideoCap cap;
-    cv::Mat frame, binary, frame1;
+    cv::Mat frame, originFrame, frame1;
     ArmorTracker trackArmor;
     while (1) {
         bool isDetected = false;
@@ -31,19 +31,19 @@ int main() {
         frame = cap.getCurrentImage();
         // frame = imread("D:\\QQ\\1023342887\\FileRecv\\car.jpg");
         //resize(frame1, frame, frame.size(), 0.5, 0.5);
-        frame.copyTo(binary);       //展示效果
+        frame.copyTo(originFrame);       //展示效果
         frame.copyTo(frame1);
 
-        FindArmorFactory findArmor(frame, binary);
+        FindArmorFactory findArmor(frame, originFrame);
         armors finalarmor = findArmor.getFinalArmor();
         std::vector<armors> Armors = findArmor.getArmors();
         if (!Armors.empty()) {
             isDetected = true;
         }
 #ifdef PREDICT
-        trackArmor.track(finalarmor, isDetected, binary);//追踪器
+        trackArmor.track(finalarmor, isDetected, frame, originFrame);//追踪器
 		// if(armors.size()!=0)
-        // m_k.predict(finalarmor,binary);
+        // m_k.predict(finalarmor,originFrame);
 #endif
 
         if(!Armors.empty()){
@@ -52,7 +52,7 @@ int main() {
             // if(waitKey(1) >= 0) break;
         }
 #ifdef IMSHOW
-        imshow("okey", binary);
+        imshow("okey", originFrame);
 #endif
 #ifdef CLOCK
         finish = clock();
