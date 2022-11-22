@@ -25,6 +25,8 @@ add_executable(rm2023_reconsitution
         include/kalman.h
         src/kalman.cpp
         include/armor_tracker.h
-        src/armor_tracker.cpp)
+        src/armor_tracker.cpp
+        src/resistance_top.cpp
+        include/resistance_top.h)
 
 target_link_libraries(rm2023_reconsitution ${OpenCV_LIBS})

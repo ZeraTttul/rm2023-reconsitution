@@ -9,7 +9,6 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 
-// E:\\VSCode\\production\\rgb\\Video\\blueVideo5.mp4
 
 class VideoCap{
 private:
@@ -21,7 +20,9 @@ private:
 
 public:
     VideoCap();
-    void algorithmInterface();
+    void runCap();
+
+    // 接口
     cv::Mat getCurrentImage();
 
 };

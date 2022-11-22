@@ -12,7 +12,7 @@
 #define DETECT_BLUE            // 识别蓝色，用时取消注释
 // #define DETECT_RED         // 识别红色，用时取消注释
 #define PREDICT                 // 追踪器
-#define RED 1                   //用于rgb文件颜色识别 
-#define BLUE 0 
+#define RED 0                  //用于rgb文件颜色识别
+#define BLUE 1
 
 #endif //RM2023_RECONSITUTION_DEFINE_H
