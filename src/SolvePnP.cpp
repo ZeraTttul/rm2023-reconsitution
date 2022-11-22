@@ -20,8 +20,7 @@ using namespace cv;
  */
 void SOLVEPNP ::caculate(armors finalarmor) {
 
-    //Serial uart(BR115200, WORDLENGTH_8B, STOPBITS_1, PARITY_NONE, HWCONTROL_NONE);
-    //uart.sOpen("/dev/ttyTHS2");
+
         static float final_distance;
         float tmp;
 

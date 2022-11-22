@@ -36,11 +36,12 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
 //     frame = rgb.imagePreprocess_rgb(frame, RED);//flag=1识别红色 else 识别蓝色
 // #endif
 
-// #ifdef IMSHOW
-//     imshow("double", frame);
-// #endif
-
     rgb.imagePreprocess_gray(frame);
+#ifdef IMSHOW
+    imshow("double", frame);
+#endif
+
+
     std::vector<std::vector<cv::Point> > contours;               //画出轮廓
     std::vector<std::vector<cv::Point> > select_contours;        //筛选出的正确的灯条轮廓
     findContours(frame,
@@ -62,9 +63,9 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
 
         drawContours(frame,
                      contours,
-                     static_cast<int>(i),
+                     -1,
                      cv::Scalar(0),
-                     2);
+                     3);
 
         cv::RotatedRect rec = minAreaRect(contours[i]);                                       //最小外接矩阵拟合
         float angle = rec.size.width > rec.size.height ? rec.angle - 90 : rec.angle;                //通过矩形角度筛出一些非灯条轮廓
@@ -79,7 +80,7 @@ void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat binary, std::vector<
     std::vector<std::vector<bool>> is_armor(select_contours.size(), std::vector<bool>(select_contours.size(), true));
     for (int i = 0; i < select_contours.size(); i++)                                                //灯条两两匹配模拟装甲板
     {
-        drawContours(frame, select_contours, static_cast<int>(i), cv::Scalar(0), 2);
+        drawContours(frame, select_contours, -1, cv::Scalar(0), 3);
         cv::RotatedRect rect = minAreaRect(select_contours[i]);
 
         if (i == select_contours.size() - 1) {
@@ -262,7 +263,7 @@ void ArmorDetector::selectrightarmor(std::vector<armors> &armors_possible, std::
                                                                              armors_possible[mark].r.size.height)) / 2;
         armors_possible[mark].board_ratio = armors_possible[mark].boardw/armors_possible[mark].boardh;        //长宽比
 
-        if(armors_possible[mark].board_ratio>2.5){
+        if(armors_possible[mark].board_ratio > 5){
             is_armor[mark]=false;
         }
 

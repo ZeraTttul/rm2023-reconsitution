@@ -13,6 +13,10 @@
 #include "../include/resistance_top.h"
 
 int main() {
+#ifdef NX
+    Serial uart(BR115200, WORDLENGTH_8B, STOPBITS_1, PARITY_NONE, HWCONTROL_NONE);
+    uart.sOpen("/dev/ttyTHS2");
+#endif
     int times = 0;
     double sum = 0;
     clock_t start, finish;
@@ -29,6 +33,7 @@ int main() {
 #endif
         cap.runCap();
         frame = cap.getCurrentImage();
+        // frame = imread("D:\\QQ\\1023342887\\FileRecv\\car.jpg");
         //resize(frame1, frame, frame.size(), 0.5, 0.5);
         frame.copyTo(binary);       //展示效果
         frame.copyTo(frame1);

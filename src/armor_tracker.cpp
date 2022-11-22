@@ -10,6 +10,7 @@
 #define _ARMOR_TRACTER_CPP
 
 #include "../include/armor_tracker.h"
+#include "../define/define.h"
 
 void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat binary)
 {
@@ -22,46 +23,29 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat binary)
 			center = m_predict_que.front().center;
 			center = m_k.kal(center.x, center.y);
 			armor.center = center;
-			m_predict_que.push(armor);
 
                 // cout << "not predirct" << endl;
                 // cout << "center = " << center <<endl;
+
+            if(m_predictCount < 4) {
                 
-            cv::circle(binary,
+                m_predict_que.push(armor);
+                m_predictCount++;
+#ifdef IMSHOW
+                cv::circle(binary,
                     center,
                     3, cv::Scalar(255, 0, 0), -1);
-                // line(binary, Point(100,100), center, Scalar(255, 0, 0), 3);
-                // cv::Point2f* vertices1 = new cv::Point2f[4];
-                // armor.l.points(vertices1);
-
-                // for (int j = 0; j < 4; j++) 
-                // {
-                //     cv::line(binary,
-                //             vertices1[j],
-                //             vertices1[(j + 1) % 4],
-                //             cv::Scalar(255, 0, 0),
-                //             4);
-                // }
-
-                // cv::Point2f* vertices2 = new cv::Point2f[4];
-                // armor.r.points(vertices2);
-
-                // for (int j = 0; j < 4; j++)
-                // {
-                //     cv::line(binary,
-                //             vertices2[j],
-                //             vertices2[(j + 1) % 4],
-                //             cv::Scalar(255, 0, 0),
-                //             4);
-                // }
-		
-			final_armor = armor;                                        //更新finalarmor传出 
-			m_predict_que.pop();
+#endif
+                final_armor = armor;                                        //更新finalarmor传出 
+            }
+                
+            m_predict_que.pop();
 		}
     }
     else 
     {
 		while(!m_predict_que.empty()) m_predict_que.pop();
+        m_predictCount = 0;
 		m_armor_que.push(armor);
 
 		if(0)                                                           //装甲板中心点瞬移 x 个装甲板宽度后(暂定方案) 
