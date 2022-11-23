@@ -5,6 +5,7 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 #include "../define/define.h"
+#include "roi_finder.h"
 
 
 /**
@@ -33,7 +34,7 @@ public:
     int m_hi;                           //视觉组的传承 ~by xyc
     int m_maxh;
     int m_t;
-    void selectLightbar(cv::Mat frame, cv::Mat originFrame, std::vector<armors> &armors_possible);
+    void selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::vector<armors> &armors_possible);
     void selectrightarmor(std::vector<armors> &armors_possible, std::vector<armors>&armors, cv::Mat originFrame);
     void selectfinalarmor(armors &finalarmor, std::vector<armors> &armors, cv::Mat originFrame);
 };

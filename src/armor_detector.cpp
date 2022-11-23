@@ -2,8 +2,6 @@
 // Created by JYSimilar on 2022/11/3.
 //
 
-#include "../include/armor_detector.h"
-
 /*
  * @Description: 检测装甲板并筛选出有效装甲板
  * @Version: 1.0
@@ -26,7 +24,7 @@
  * @param Mat originFrame
  * @param vector &armors_possible 有可能是装甲板的灯条组合
  */
-void ArmorDetector :: selectLightbar(cv::Mat frame, cv::Mat originFrame, std::vector<armors>&armors_possible){
+void ArmorDetector :: selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::vector<armors>&armors_possible){
     Rgb rgb;
 
 // #ifdef DETECT_BLUE
