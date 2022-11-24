@@ -2,9 +2,10 @@
 #define _ROI_FINDER_H_
 
 #include "../define/define.h"
-#include "../include/armor_detector.h"
+#include "armor_detector.h"
 
 using namespace cv;
+using namespace std;
 
 class RoiFinder
 {
@@ -16,7 +17,7 @@ class RoiFinder
     
     public:
         RoiFinder(Mat frame);
-        void findRoi(armors armor, Mat &frame, Mat originFrame);
+        void findRoi(armors armor, Mat originFrame);
         Rect getRoi();
 };
 

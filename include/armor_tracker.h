@@ -3,6 +3,7 @@
 
 #include "armor_detector.h"
 #include "Kalman.h"
+#include "roi_finder.h"
 
 class ArmorTracker
 {
@@ -11,6 +12,7 @@ class ArmorTracker
         queue<armors> m_predict_que;
         kalman m_k;
         int m_predictCount = 0;
+        bool m_isArmorChanged = false;
     public:
         void track(armors &armor, bool isDetected,Mat &frame, Mat originFrame);
         bool isArmorSwitched(armors armor, Mat &frame, Mat originFrame);

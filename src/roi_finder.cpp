@@ -3,11 +3,11 @@
 
 #include "../include/roi_finder.h"
 
-RoiFinder::RoiFinder(Mat frame){
+RoiFinder::RoiFinder(Mat frame) {
     originRect = Rect(0, 0, frame.cols, frame.rows);
 }
 
-void RoiFinder::findRoi(armors armor, Mat &frame, Mat originFrame)
+void RoiFinder::findRoi(armors armor, Mat originFrame)
 {
     Size2i roi_size = Size2i(m_roi_factor_w * (int)armor.boardw, m_roi_factor_h * (int)armor.boardh);
     // cout << size <<endl;
@@ -20,8 +20,8 @@ void RoiFinder::findRoi(armors armor, Mat &frame, Mat originFrame)
     m_roi_que.push(ROIRect);
 }
 
-Rect RoiFinder::getRoi(){
-    if(m_roi_que.empty()){
+Rect RoiFinder::getRoi() {
+    if(m_roi_que.empty()) {
         return originRect;
     }
     else{
