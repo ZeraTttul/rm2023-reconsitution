@@ -27,7 +27,6 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat &frame, Mat
                 // cout << "center = " << center <<endl;
 
             if(m_predictCount < 4) {
-                
                 m_predict_que.push(armor);
                 m_predictCount++;
 #ifdef IMSHOW
