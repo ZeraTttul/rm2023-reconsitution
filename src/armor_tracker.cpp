@@ -51,7 +51,7 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat &frame, Mat
         // if(0)
 		{                                                               //认为是一块新的装甲板 init卡尔曼滤波器
 			// m_k.reInit(m_k.m_KF);
-			// cout << "new armor" <<endl;
+			cout << "new armor" <<endl;
 			// while(!m_armor_que.empty()) m_armor_que.pop();
 		}                                                          
 
@@ -72,22 +72,27 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat &frame, Mat
 
 bool ArmorTracker:: isArmorSwitched(armors armor, Mat &frame, Mat originFrame)
 {
-    RoiFinder roi(frame);
+    roi.init(originFrame);
     Rect roiRect = roi.getRoi();
     Mat roiFrame = frame(roiRect);
     std::vector<std::vector<cv::Point> > contours;               //画出轮廓
-    std::vector<std::vector<cv::Point> > select_contours;        //筛选出的正确的灯条轮廓
     findContours(roiFrame,
                  contours,
                  cv::RETR_EXTERNAL,                              //只检测外围轮廓
                  cv::CHAIN_APPROX_NONE);
     roi.findRoi(armor, originFrame);
-    if(pointPolygonTest(contours, armor.center, false) >= 1) { //11.25 0:41 闪退
+    // drawContours(roiFrame, contours, -1, Scalar(0, 255, 0));
+    imshow("roi", roiFrame);
+
+    if(pointPolygonTest(contours.front(), armor.center, false) >= 1) { //11.28 22:20 segmention fault
         m_isArmorChanged = true;
+        // cout << "true" << endl;
     }
     else {
         m_isArmorChanged = false;
+        // cout << "false" << endl;
     }
+    roi.findRoi(armor, originFrame);
     return m_isArmorChanged;
 }
 

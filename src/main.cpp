@@ -58,7 +58,7 @@ int main() {
             // 反陀螺
             resT.resTop(finalarmor.center, 2, isChangeArmor);
             isTop = resT.isTopStatus();
-            cout << isTop << endl;
+            // cout << isTop << endl;
         }
 #ifdef IMSHOW
         imshow("okey", originFrame);
