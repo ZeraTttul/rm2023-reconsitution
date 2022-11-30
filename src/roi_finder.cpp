@@ -22,6 +22,10 @@ void RoiFinder::findRoi(armors armor, Mat originFrame)
 #ifdef IMSHOW
     rectangle(m_originFrame, ROIRect, Scalar(255, 0, 0));
 #endif
+
+    // Mat roiframe = originFrame(ROIRect);
+    // imshow("roi", roiframe);
+
     m_roi_que.push(ROIRect);
 }
 

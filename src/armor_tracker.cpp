@@ -80,18 +80,23 @@ bool ArmorTracker:: isArmorSwitched(armors armor, Mat &frame, Mat originFrame)
                  contours,
                  cv::RETR_EXTERNAL,                              //只检测外围轮廓
                  cv::CHAIN_APPROX_NONE);
-    roi.findRoi(armor, originFrame);
-    // drawContours(roiFrame, contours, -1, Scalar(0, 255, 0));
+
     imshow("roi", roiFrame);
 
-    if(pointPolygonTest(contours.front(), armor.center, false) >= 1) { //11.28 22:20 segmention fault
-        m_isArmorChanged = true;
-        // cout << "true" << endl;
+    if(!contours.empty())
+    {
+        if(pointPolygonTest(contours[0], armor.center, false) >= 0)
+        {
+            m_isArmorChanged = true;
+            cout << "true" << endl;
+        }
+        else 
+        {
+            m_isArmorChanged = false;
+            cout << "false" << endl;
+        }
     }
-    else {
-        m_isArmorChanged = false;
-        // cout << "false" << endl;
-    }
+
     roi.findRoi(armor, originFrame);
     return m_isArmorChanged;
 }

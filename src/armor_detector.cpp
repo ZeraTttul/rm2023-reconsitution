@@ -59,11 +59,11 @@ void ArmorDetector :: selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::v
             continue;
         }
 
-        drawContours(frame,
-                     contours,
-                     -1,
-                     cv::Scalar(0),
-                     3);
+        // drawContours(frame,
+        //              contours,
+        //              -1,
+        //              cv::Scalar(0),
+        //              3);
 
         cv::RotatedRect rec = minAreaRect(contours[i]);                                       //最小外接矩阵拟合
         float angle = rec.size.width > rec.size.height ? rec.angle - 90 : rec.angle;                //通过矩形角度筛出一些非灯条轮廓
@@ -78,7 +78,7 @@ void ArmorDetector :: selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::v
     std::vector<std::vector<bool>> is_armor(select_contours.size(), std::vector<bool>(select_contours.size(), true));
     for (int i = 0; i < select_contours.size(); i++)                                                //灯条两两匹配模拟装甲板
     {
-        drawContours(frame, select_contours, -1, cv::Scalar(0), 3);
+        // drawContours(frame, select_contours, -1, cv::Scalar(0), 3);
         cv::RotatedRect rect = minAreaRect(select_contours[i]);
 
         if (i == select_contours.size() - 1) {
