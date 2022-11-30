@@ -16,9 +16,12 @@ private:
     // bool m_direction = true;                        // 旋转方向，左到右为false，右到左为true，弃用
     bool m_isChange = false;                        // 是否切换了装甲板，默认没有切换
     bool m_isTop = false;                           // 陀螺状态，默认关闭
+    int m_cnt = 0;                                  // 用于记录处在旋转状态的装甲板个数
 public:
     resistanceTop();
+    // 运行函数
     void resTop(cv::Point2f newCenter, int armorTimes, bool isChange);
+    // 获取陀螺状态接口
     bool isTopStatus();
 };
 

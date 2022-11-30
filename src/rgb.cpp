@@ -1,8 +1,3 @@
-//
-// Change by JYSimilar on 2022/9/25
-//
-// 该文件已整理完成
-
 #include "opencv2/opencv.hpp"
 #include "../include/rgb.h"
 
