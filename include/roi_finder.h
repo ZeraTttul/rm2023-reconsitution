@@ -1,7 +1,7 @@
 #ifndef _ROI_FINDER_H_
 #define _ROI_FINDER_H_
 
-#include "../define/define.h"
+#include "../include/define/define.h"
 #include "armor_detector.h"
 
 using namespace cv;

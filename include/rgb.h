@@ -6,7 +6,7 @@
 #include "opencv2/opencv.hpp"
 #include <queue>
 #include <vector>
-#include "../define/define.h"
+#include "../include/define/define.h"
 
 using namespace std;
 using namespace cv;

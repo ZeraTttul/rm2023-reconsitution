@@ -46,14 +46,14 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat &frame, Mat
         m_predictCount = 0;
 		m_armor_que.push(armor);
 
-		if(isArmorSwitched(armor, frame, originFrame))                                                           //装甲板中心点瞬移 x 个装甲板宽度后(暂定方案) 
+		// if(isArmorSwitched(armor, frame, originFrame))                                                           //装甲板中心点瞬移 x 个装甲板宽度后(暂定方案) 
 		// if(fabs(armor.center.x - m_armor_que.front().center.x) > 2*armor.boardw)
-        // if(0)
+        if(0)
 		{                                                               //认为是一块新的装甲板 init卡尔曼滤波器
 			// m_k.reInit(m_k.m_KF);
 			cout << "new armor" <<endl;
 			// while(!m_armor_que.empty()) m_armor_que.pop();
-		}                                                          
+		}
 
 		Point2f predict_pt = m_k.kal(armor.center.x, armor.center.y);
 		armor.center = predict_pt;                                      //预测值
@@ -70,7 +70,7 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat &frame, Mat
     }
 }
 
-bool ArmorTracker:: isArmorSwitched(armors armor, Mat &frame, Mat originFrame)
+bool ArmorTracker:: isArmorSwitched(armors armor, Mat &frame, Mat originFrame) // todo :armor change can not distinguish
 {
     roi.init(originFrame);
     Rect roiRect = roi.getRoi();
@@ -90,7 +90,7 @@ bool ArmorTracker:: isArmorSwitched(armors armor, Mat &frame, Mat originFrame)
             m_isArmorChanged = true;
             cout << "true" << endl;
         }
-        else 
+        else
         {
             m_isArmorChanged = false;
             cout << "false" << endl;
