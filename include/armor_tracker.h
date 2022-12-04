@@ -13,6 +13,7 @@ class ArmorTracker
         kalman m_k;
         int m_predictCount = 0;
         bool m_isArmorChanged = false;
+        RoiFinder roi;
     public:
         void track(armors &armor, bool isDetected,Mat &frame, Mat originFrame);
         bool isArmorSwitched(armors armor, Mat &frame, Mat originFrame);

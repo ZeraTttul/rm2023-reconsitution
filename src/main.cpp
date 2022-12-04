@@ -4,7 +4,7 @@
 #pragma ide diagnostic ignored "EndlessLoop"
 #include <iostream>
 #include <vector>
-#include "../define/define.h"
+#include "../include/define/define.h"
 #include "../include/video_cap.h"
 #include "../include/armor_detector.h"
 #include "../include/SolvePnP.h"
@@ -20,7 +20,7 @@ int main() {
     int times = 0;
     double sum = 0;
     clock_t start, finish;
-    VideoCap cap;
+    VideoCap cap;                                              //0:Video 1:Cap 2:Hikvision
     cv::Mat frame, originFrame, frame1;
     ArmorTracker trackArmor;
     FindArmorFactory findArmor;
@@ -31,7 +31,11 @@ int main() {
 #ifdef CLOCK
         start = clock();
 #endif
+#ifdef NX
+        cap.runHikCap();
+#else
         cap.runCap();
+#endif
         frame = cap.getCurrentImage();
         // frame = imread("D:\\QQ\\1023342887\\FileRecv\\car.jpg");
         //resize(frame1, frame, frame.size(), 0.5, 0.5);
@@ -58,7 +62,7 @@ int main() {
             // 反陀螺
             resT.resTop(finalarmor.center, 2, isChangeArmor);
             isTop = resT.isTopStatus();
-            cout << isTop << endl;
+            // cout << isTop << endl;
         }
 #ifdef IMSHOW
         imshow("okey", originFrame);

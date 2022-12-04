@@ -1,32 +1,27 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.4)
 project(rm2023_reconsitution)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 11)
+SET(CMAKE_BUILD_TYPE RELEASE)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPATH=\"\\\"${PROJECT_SOURCE_DIR}\\\"\"")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D${CMAKE_SYSTEM_NAME}")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
+SET(BIN_NAME "run")
 
+# 定义相机SDK工具包目录
+set(HIKVISION_CAMERA_SDK_DIR "${PROJECT_SOURCE_DIR}/hikvision")
 # OpenCV
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
+LINK_DIRECTORIES(/opt/MVS/lib/armhf)
 
-add_executable(rm2023_reconsitution
-        src/main.cpp
-        # include/strategy.h
-        src/video_cap.cpp
-        define/define.h
-        # src/strategy.cpp
-        include/video_cap.h
-        src/armor_detector.cpp
-        include/armor_detector.h
-        include/rgb.h
-        src/rgb.cpp
-        include/SolvePnP.h
-        src/SolvePnP.cpp
-        src/find_armor_factory.cpp
-        include/find_armor_factory.h
-        include/kalman.h
-        src/kalman.cpp
-        include/armor_tracker.h
-        src/armor_tracker.cpp
-        src/resistance_top.cpp
-        include/resistance_top.h)
+# 指定相机库目录
+INCLUDE_DIRECTORIES(${HIKVISION_CAMERA_SDK_DIR}/include)
+INCLUDE_DIRECTORIES(${HIKVISION_CAMERA_SDK_DIR}/src)
+
+FILE(GLOB_RECURSE INCLUDE_FILES "${PROJECT_SOURCE_DIR}/include/*.h")
+FILE(GLOB_RECURSE SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 target_link_libraries(rm2023_reconsitution ${OpenCV_LIBS})
+TARGET_LINK_LIBRARIES(${BIN_NAME} MvCameraControl)

@@ -27,7 +27,6 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat &frame, Mat
                 // cout << "center = " << center <<endl;
 
             if(m_predictCount < 4) {
-                
                 m_predict_que.push(armor);
                 m_predictCount++;
 #ifdef IMSHOW
@@ -47,14 +46,14 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat &frame, Mat
         m_predictCount = 0;
 		m_armor_que.push(armor);
 
-		if(isArmorSwitched(armor, frame, originFrame))                                                           //装甲板中心点瞬移 x 个装甲板宽度后(暂定方案) 
+		// if(isArmorSwitched(armor, frame, originFrame))                                                           //装甲板中心点瞬移 x 个装甲板宽度后(暂定方案) 
 		// if(fabs(armor.center.x - m_armor_que.front().center.x) > 2*armor.boardw)
-        // if(0)
+        if(0)
 		{                                                               //认为是一块新的装甲板 init卡尔曼滤波器
 			// m_k.reInit(m_k.m_KF);
-			// cout << "new armor" <<endl;
+			cout << "new armor" <<endl;
 			// while(!m_armor_que.empty()) m_armor_que.pop();
-		}                                                          
+		}
 
 		Point2f predict_pt = m_k.kal(armor.center.x, armor.center.y);
 		armor.center = predict_pt;                                      //预测值
@@ -71,24 +70,34 @@ void ArmorTracker :: track(armors &final_armor, bool isDetected, Mat &frame, Mat
     }
 }
 
-bool ArmorTracker:: isArmorSwitched(armors armor, Mat &frame, Mat originFrame)
+bool ArmorTracker:: isArmorSwitched(armors armor, Mat &frame, Mat originFrame) // todo :armor change can not distinguish
 {
-    RoiFinder roi(frame);
+    roi.init(originFrame);
     Rect roiRect = roi.getRoi();
     Mat roiFrame = frame(roiRect);
     std::vector<std::vector<cv::Point> > contours;               //画出轮廓
-    std::vector<std::vector<cv::Point> > select_contours;        //筛选出的正确的灯条轮廓
     findContours(roiFrame,
                  contours,
                  cv::RETR_EXTERNAL,                              //只检测外围轮廓
                  cv::CHAIN_APPROX_NONE);
+
+    imshow("roi", roiFrame);
+
+    if(!contours.empty())
+    {
+        if(pointPolygonTest(contours[0], armor.center, false) >= 0)
+        {
+            m_isArmorChanged = true;
+            cout << "true" << endl;
+        }
+        else
+        {
+            m_isArmorChanged = false;
+            cout << "false" << endl;
+        }
+    }
+
     roi.findRoi(armor, originFrame);
-    if(pointPolygonTest(contours, armor.center, false) >= 1) { //11.25 0:41 闪退
-        m_isArmorChanged = true;
-    }
-    else {
-        m_isArmorChanged = false;
-    }
     return m_isArmorChanged;
 }
 

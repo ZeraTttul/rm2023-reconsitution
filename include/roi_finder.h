@@ -1,7 +1,7 @@
 #ifndef _ROI_FINDER_H_
 #define _ROI_FINDER_H_
 
-#include "../define/define.h"
+#include "../include/define/define.h"
 #include "armor_detector.h"
 
 using namespace cv;
@@ -11,14 +11,16 @@ class RoiFinder
 {
     private:
         cv::Rect originRect;
-        float m_roi_factor_w = 6; //roi系数
-        float m_roi_factor_h = 8;
+        const float m_roi_factor_w = 3; //roi系数
+        const float m_roi_factor_h = 4;
         std::queue<cv::Rect> m_roi_que;
+        Mat m_originFrame;
+        void getOrigin();
     
     public:
-        RoiFinder(Mat frame);
         void findRoi(armors armor, Mat originFrame);
         Rect getRoi();
+        void init(Mat originFrame);
 };
 
 
