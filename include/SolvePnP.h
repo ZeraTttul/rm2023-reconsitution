@@ -4,7 +4,7 @@
  * @Author: Barimu
  * @Date: 2022-10-30 00:10:23
  * @LastEditors: Barimu
- * @LastEditTime: 2022-11-01 00:50:16
+ * @LastEditTime: 2022-12-05 11:55:11
  */
 
 #ifndef RM2022_SOLVEPNP_H
@@ -34,7 +34,7 @@ public:
     
     float distance;
 
-    float PNP(int flag);
+    float PNP(int flag,armors finalarmor);
 
     void caculate(armors finalarmor);
 

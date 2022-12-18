@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Version: 1.0
+ * @Author: Barimu
+ * @Date: 2022-12-05 10:44:55
+ * @LastEditors: Barimu
+ * @LastEditTime: 2022-12-18 14:00:58
+ */
 // todo: 加注释
 
 #pragma clang diagnostic push
@@ -11,6 +19,7 @@
 #include "../include/find_armor_factory.h"
 #include "../include/armor_tracker.h"
 #include "../include/resistance_top.h"
+#include "../include/predict.h"
 
 int main() {
 #ifdef NX
@@ -26,6 +35,10 @@ int main() {
     FindArmorFactory findArmor;
     resistanceTop resT;
     bool isTop = false;
+
+    angle::predict predict;
+    predict.initialize();
+
     while (true) {
         bool isDetected = false;
 #ifdef CLOCK
@@ -52,6 +65,7 @@ int main() {
         trackArmor.track(finalarmor, isDetected, frame, originFrame);//追踪器
 		// if(armors.size()!=0)
         // m_k.predict(finalarmor,originFrame);
+        predict.armortrack(finalarmor);
 #endif
         bool isChangeArmor = false;                      // roi判断是否切换装甲，没写呢
 

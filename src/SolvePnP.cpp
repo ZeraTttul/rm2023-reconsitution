@@ -4,7 +4,7 @@
  * @Author: Barimu
  * @Date: 2022-10-30 00:10:23
  * @LastEditors: Barimu
- * @LastEditTime: 2022-10-31 22:20:36
+ * @LastEditTime: 2022-12-05 11:55:16
  */
 #ifndef RM2022_SOLVEPNP_CPP
 #define RM2022_SOLVEPNP_CPP
@@ -34,13 +34,13 @@ void SOLVEPNP ::caculate(armors finalarmor) {
             //小装甲板            
             xishu = (13.5 / finalarmor.boardw + 5.4 / finalarmor.boardh) / 2;
                 //世界坐标
-            tmp = PNP(0);
+            tmp = PNP(0,finalarmor);
             if(tmp > 10) final_distance = tmp;
 
         } else {
             //大装甲板
             xishu = (23.5 / finalarmor.boardw + 5.4 / finalarmor.boardh) / 2;
-            tmp = PNP(1);
+            tmp = PNP(1,finalarmor);
             if(tmp > 10) final_distance = tmp;
         }
         double distance_to_midboard_x, distance_to_midboard_y;
@@ -63,8 +63,9 @@ void SOLVEPNP ::caculate(armors finalarmor) {
 /**
  * @description: 进行pnp解算
  * @param {int} flag 通过flag的值判断大小装甲板
+ * TODO:通过数字分类来选真实坐标
  */
-float SOLVEPNP::PNP(int flag)
+float SOLVEPNP::PNP(int flag,armors finalarmor)
 {
     //写入真实值
     if(flag==0)
@@ -89,6 +90,10 @@ float SOLVEPNP::PNP(int flag)
     Mat_<float> Tvec;
     rotation_vector.convertTo(Rvec, CV_32F);  // 旋转向量转换格式
     translation_vector.convertTo(Tvec, CV_32F); // 平移向量转换格式 
+
+    finalarmor.position[0]=translation_vector.at<double>(0) * 0.001;        //后边系数可调，旋转向量并未转换成旋转矩阵
+    finalarmor.position[1]=translation_vector.at<double>(1) * 0.001;
+    finalarmor.position[2]=translation_vector.at<double>(2) * 0.001;
 
     Mat_<float> rotMat(3, 3);
     Rodrigues(Rvec, rotMat);

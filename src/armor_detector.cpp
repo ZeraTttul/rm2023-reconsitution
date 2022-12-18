@@ -8,7 +8,7 @@
  * @Author: Barimu
  * @Date: 2022-10-31 22:08:46
  * @LastEditors: Barimu
- * @LastEditTime: 2022-11-01 00:51:39
+ * @LastEditTime: 2022-12-05 12:29:58
  */
 #ifndef ARMOR_DECTOR_CPP
 #define ARMOR_DECTOR_CPP
@@ -24,7 +24,8 @@
  * @param Mat originFrame
  * @param vector &armors_possible 有可能是装甲板的灯条组合
  */
-void ArmorDetector :: selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::vector<armors>&armors_possible){
+void ArmorDetector::selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::vector<armors> &armors_possible)
+{
     Rgb rgb;
 
 // #ifdef DETECT_BLUE
@@ -59,11 +60,11 @@ void ArmorDetector :: selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::v
             continue;
         }
 
-        // drawContours(frame,
-        //              contours,
-        //              -1,
-        //              cv::Scalar(0),
-        //              3);
+        drawContours(frame,
+                     contours,
+                     -1,
+                     cv::Scalar(0),
+                     3);
 
         cv::RotatedRect rec = minAreaRect(contours[i]);                                       //最小外接矩阵拟合
         float angle = rec.size.width > rec.size.height ? rec.angle - 90 : rec.angle;                //通过矩形角度筛出一些非灯条轮廓
@@ -78,7 +79,7 @@ void ArmorDetector :: selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::v
     std::vector<std::vector<bool>> is_armor(select_contours.size(), std::vector<bool>(select_contours.size(), true));
     for (int i = 0; i < select_contours.size(); i++)                                                //灯条两两匹配模拟装甲板
     {
-        // drawContours(frame, select_contours, -1, cv::Scalar(0), 3);
+        drawContours(frame, select_contours, -1, cv::Scalar(0), 3);
         cv::RotatedRect rect = minAreaRect(select_contours[i]);
 
         if (i == select_contours.size() - 1) {
@@ -281,9 +282,11 @@ void ArmorDetector::selectrightarmor(std::vector<armors> &armors_possible, std::
  */
 void ArmorDetector::selectfinalarmor(armors &final_armor, std::vector<armors> &armors, cv::Mat originFrame)
 {
+    //TODO:通过数字分类判断兵种种类进而确定装甲板尺寸，再寻找距离最近装甲板作为最终击打目标
+    //TODO:判断是否存在最终装甲板
     m_maxh=100;
     m_t=-1;
-    for(int i=0;i<armors.size();i++)                                 //找角度差最小的
+    for(int i=0;i<armors.size();i++)                                 //找角度差最小的（暂定）
     {
         if(armors[i].angle_diff < m_maxh)
         {
@@ -291,6 +294,7 @@ void ArmorDetector::selectfinalarmor(armors &final_armor, std::vector<armors> &a
             m_t=i;
         }
     }
+    armors[m_t].number=0;
     if(m_t == -1)return;
     final_armor = armors[m_t];
 
