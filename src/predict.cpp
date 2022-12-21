@@ -4,7 +4,7 @@
  * @Author: Barimu
  * @Date: 2022-12-05 20:45:49
  * @LastEditors: Barimu
- * @LastEditTime: 2022-12-18 14:15:58
+ * @LastEditTime: 2022-12-21 20:54:17
  */
 #include"../include/predict.h"
 
@@ -91,6 +91,11 @@ namespace angle
             target.velocity[0] = tracker_->target_state(3);
             target.velocity[1] = tracker_->target_state(4);
             target.velocity[2] = tracker_->target_state(5);
+            double pitchpredict=atan(target.position[1]/target.position[2])/CV_PI*180;
+            double yawpredict=atan(target.position[0]/target.position[2])/CV_PI*180;
+             cout<<"predictpitch="<<pitchpredict<<endl;
+             cout<<"predictyaw="<<yawpredict<<endl;
+
         }
     }
 }

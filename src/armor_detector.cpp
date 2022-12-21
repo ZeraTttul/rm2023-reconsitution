@@ -56,7 +56,7 @@ void ArmorDetector::selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::vec
 
         float light_contour_area = contourArea(contours[i]);
 
-        if (light_contour_area < 80||contours.size()<=5 ){
+        if (light_contour_area < 80){
             continue;
         }
 
@@ -294,7 +294,7 @@ void ArmorDetector::selectfinalarmor(armors &final_armor, std::vector<armors> &a
             m_t=i;
         }
     }
-    armors[m_t].number=0;
+    armors[m_t].number=4;
     if(m_t == -1)return;
     final_armor = armors[m_t];
 

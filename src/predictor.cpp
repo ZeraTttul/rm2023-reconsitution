@@ -4,7 +4,7 @@
  * @Author: Barimu
  * @Date: 2022-12-05 10:58:35
  * @LastEditors: Barimu
- * @LastEditTime: 2022-12-18 14:14:37
+ * @LastEditTime: 2022-12-21 20:52:26
  */
 #include"../include/armor_tracker.h"
 #include<cfloat>
@@ -59,14 +59,17 @@ void ArmorTracker::update(const armors &armor, const double & dt)
     {
         min_position_diff = position_diff;
         matched_armor = armor;
+      
     }
 
-    if (min_position_diff < max_match_distance_)
+    if (true)
     {
       // Matching armor found
       matched = true;
       Eigen::Vector3d position_vec(
       matched_armor.position[0], matched_armor.position[1], matched_armor.position[2]);
+      //cout<<matched_armor.position<<endl;
+      //cout<<position_vec<<endl;
       target_state = kf_->update(position_vec);
     } else 
     {

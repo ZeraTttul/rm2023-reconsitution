@@ -4,7 +4,7 @@
  * @Author: Barimu
  * @Date: 2022-12-05 10:44:55
  * @LastEditors: Barimu
- * @LastEditTime: 2022-12-18 14:00:58
+ * @LastEditTime: 2022-12-21 20:25:36
  */
 // todo: 加注释
 
@@ -50,7 +50,7 @@ int main() {
         cap.runCap();
 #endif
         frame = cap.getCurrentImage();
-        // frame = imread("D:\\QQ\\1023342887\\FileRecv\\car.jpg");
+        // frame = imread("C:\\Users\\八日目\\Documents\\Tencent Files\\1925539346\\FileRecv\\1.jpg");
         //resize(frame1, frame, frame.size(), 0.5, 0.5);
         frame.copyTo(originFrame);       //展示效果
         frame.copyTo(frame1);
@@ -65,7 +65,6 @@ int main() {
         trackArmor.track(finalarmor, isDetected, frame, originFrame);//追踪器
 		// if(armors.size()!=0)
         // m_k.predict(finalarmor,originFrame);
-        predict.armortrack(finalarmor);
 #endif
         bool isChangeArmor = false;                      // roi判断是否切换装甲，没写呢
 
@@ -77,6 +76,7 @@ int main() {
             resT.resTop(finalarmor.center, 2, isChangeArmor);
             isTop = resT.isTopStatus();
             // cout << isTop << endl;
+            predict.armortrack(finalarmor);
         }
 #ifdef IMSHOW
         imshow("okey", originFrame);

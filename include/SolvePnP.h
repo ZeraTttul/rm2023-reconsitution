@@ -34,29 +34,37 @@ public:
     
     float distance;
 
-    float PNP(int flag,armors finalarmor);
+    float PNP(armors &finalarmor,int flag);
 
-    void caculate(armors finalarmor);
+    void caculate(armors &finalarmor);
+
+    void calAngle(Mat cam,Mat dis,int x,int y);
 
     float xishu;
+
+    double yaw;
+    double pitch;
+    double rxNew;
+    double ryNew;
    
 private:
     vector<Point3d> model_points;
 
     // 相机内参矩阵
-    Mat camera_matrix = (Mat_<double>(3, 3) << 1.220026691835674e+03, 0, 7.445508543026164e+02,
-        0, 1.235231878687026e+03, 5.286821156891253e+02,
+    Mat camera_matrix = (Mat_<double>(3, 3) << 1.201371857055914e+03, 0, 7.494419594994199e+02,
+        0, 1.201435954410725e+03, 5.508546827593877e+02,
         0, 0, 1);
     
     //畸变系数
-    Mat dist_coeffs = (Mat_<double>(5, 1) << -0.101891217424125, 0.115296033070786,
-        -0.014708119282963, -0.003748512171184, -0.001974641177284);
+    Mat dist_coeffs = (Mat_<double>(5, 1) << -0.098380553375716, 0.006115203108383,
+        -4.766609631726518e-04, -0.001862163979558, 0);
 
     // 旋转向量
     Mat rotation_vector;
 
     // 平移向量
     Mat translation_vector;
+
 
     const double P = 3.1415926;
 

@@ -22,7 +22,7 @@ public:
     cv::Point2f corner[5];               //装甲板四个角点   [1][3]为对角
     float board_ratio;               //装甲板长宽比
     cv::Point2f center;                  //装甲板中心点
-    double position[3];               //现实坐标x,y,z
+    float position[3];               //现实坐标x,y,z
     int number;                  //装甲板上数字
 };
 
