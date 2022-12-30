@@ -97,7 +97,7 @@ bool ArmorTracker:: isArmorSwitched(armors armor, Mat &frame, Mat originFrame) /
         }
     }
 
-    roi.findRoi(armor, originFrame);
+    roi.findRoi(armor,1);
     return m_isArmorChanged;
 }
 

@@ -16,9 +16,10 @@ class RoiFinder
         std::queue<cv::Rect> m_roi_que;
         Mat m_originFrame;
         void getOrigin();
+        int cnt = 0;
     
     public:
-        void findRoi(armors armor, Mat originFrame);
+        void findRoi(armors armor,bool isDetected);
         Rect getRoi();
         void init(Mat originFrame);
 };

@@ -14,6 +14,7 @@ VideoCap :: VideoCap() {
     }
 }
 
+
 // VideoCap :: VideoCap(int mode) 
 // {
 //     switch (mode)

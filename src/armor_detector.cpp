@@ -34,7 +34,7 @@ void ArmorDetector :: selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::v
 //     frame = rgb.imagePreprocess_rgb(frame, RED);//flag=1识别红色 else 识别蓝色
 // #endif
 
-    rgb.imagePreprocess_gray(frame);
+    rgb.imagePreprocess_gray(frame); 
 #ifdef IMSHOW
     imshow("double", frame);
 #endif

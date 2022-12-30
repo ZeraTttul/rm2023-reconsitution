@@ -18,7 +18,7 @@ private:
     const int m_capIndex = CAP_INDEX;                                   // 当检测到 是摄像头 时，会使用这个值来表示是哪个摄像头
     cv::VideoCapture m_cap;                                             // 存储视频资源
     cv::Mat m_frame;                                                    // 用于存储当前帧图像
-    // camera :: HikCamera MVS_Cap;
+    //camera :: HikCamera MVS_Cap;
 
 public:
     VideoCap();

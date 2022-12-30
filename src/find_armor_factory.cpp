@@ -22,6 +22,28 @@ void FindArmorFactory :: findArmorFactory(cv::Mat &frame, cv::Mat &originFrame) 
     m_armor.selectfinalarmor(m_finalarmor, m_armors, originFrame);
 }
 
+void FindArmorFactory :: findArmorFromROI(cv::Mat &frame, cv::Mat &originFrame)
+{
+    roi.init(originFrame);
+    Rect roiRect = roi.getRoi();
+    cout<<"get rect = " << roiRect <<endl;
+    Mat roiFrame = frame(roiRect);
+    m_armors_possible.clear();
+    m_armors.clear();
+    imshow("roiframe", roiFrame);
+    m_armor.selectLightbar(roiFrame, originFrame, m_armors_possible);
+    if(m_armors_possible.size()!=0) {
+        m_armor.selectrightarmor(m_armors_possible, m_armors, originFrame);
+    }
+
+    m_isDetected = false;
+    if(!m_armors.empty()) {
+        m_isDetected = true;
+        m_armor.selectfinalarmor(m_finalarmor, m_armors, originFrame);
+    }
+    roi.findRoi(m_finalarmor,m_isDetected);
+}
+
 // 返回最终确定的最优装甲板
 armors FindArmorFactory :: getFinalArmor(){
     return m_finalarmor;

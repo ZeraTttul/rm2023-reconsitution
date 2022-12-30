@@ -16,10 +16,6 @@
 #include <vector>
 #include <iostream>
 
-#ifdef NX
-    #include "serial.h"
-#endif
-
 using namespace std;
 using namespace cv;
 

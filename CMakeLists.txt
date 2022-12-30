@@ -23,5 +23,12 @@ INCLUDE_DIRECTORIES(${HIKVISION_CAMERA_SDK_DIR}/src)
 FILE(GLOB_RECURSE INCLUDE_FILES "${PROJECT_SOURCE_DIR}/include/*.h")
 FILE(GLOB_RECURSE SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
-target_link_libraries(rm2023_reconsitution ${OpenCV_LIBS})
+add_executable(${BIN_NAME} ${INCLUDE_FILES} 
+                           ${SRC_FILES} 
+                           camera/hikvision/tool/calibration/calibrations.cpp 
+                           camera/hikvision/tool/calibration/calibrations.h 
+                           camera/hikvision/tool/debug/camera_parms_debug.cpp 
+                           camera/hikvision/tool/debug/camera_parms_debug.h)
+
+target_link_libraries(${BIN_NAME} ${OpenCV_LIBS})
 TARGET_LINK_LIBRARIES(${BIN_NAME} MvCameraControl)

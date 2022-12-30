@@ -13,10 +13,6 @@
 #include "../include/resistance_top.h"
 
 int main() {
-#ifdef NX
-    Serial uart(BR115200, WORDLENGTH_8B, STOPBITS_1, PARITY_NONE, HWCONTROL_NONE);
-    uart.sOpen("/dev/ttyTHS2");
-#endif
     int times = 0;
     double sum = 0;
     clock_t start, finish;
@@ -31,18 +27,17 @@ int main() {
 #ifdef CLOCK
         start = clock();
 #endif
-#ifdef NX
-        cap.runHikCap();
-#else
+
         cap.runCap();
-#endif
+
         frame = cap.getCurrentImage();
         // frame = imread("D:\\QQ\\1023342887\\FileRecv\\car.jpg");
         //resize(frame1, frame, frame.size(), 0.5, 0.5);
         frame.copyTo(originFrame);       //展示效果
         frame.copyTo(frame1);
 
-        findArmor.findArmorFactory(frame, originFrame);
+        //findArmor.findArmorFactory(frame, originFrame);
+        findArmor.findArmorFromROI(frame, originFrame);
         armors finalarmor = findArmor.getFinalArmor();
         std::vector<armors> Armors = findArmor.getArmors();
         if (!Armors.empty()) {
