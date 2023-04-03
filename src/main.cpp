@@ -4,7 +4,7 @@
  * @Author: Barimu
  * @Date: 2022-12-05 10:44:55
  * @LastEditors: Barimu
- * @LastEditTime: 2022-12-21 20:25:36
+ * @LastEditTime: 2023-03-23 12:43:42
  */
 // todo: 加注释
 
@@ -20,6 +20,7 @@
 #include "../include/armor_tracker.h"
 #include "../include/resistance_top.h"
 #include "../include/predict.h"
+#include "../include/kalman.h"
 
 int main() {
 #ifdef NX
@@ -35,6 +36,8 @@ int main() {
     FindArmorFactory findArmor;
     resistanceTop resT;
     bool isTop = false;
+
+    kalman m_k;
 
     angle::predict predict;
     predict.initialize();
@@ -64,13 +67,18 @@ int main() {
 #ifdef PREDICT
         trackArmor.track(finalarmor, isDetected, frame, originFrame);//追踪器
 		// if(armors.size()!=0)
-        // m_k.predict(finalarmor,originFrame);
+         m_k.predict(finalarmor,originFrame);
 #endif
         bool isChangeArmor = false;                      // roi判断是否切换装甲，没写呢
 
         if(!Armors.empty()){
             SOLVEPNP pnp;
             pnp.caculate(finalarmor);
+            
+        armors predictarmor;
+        
+
+
 
             // 反陀螺
             resT.resTop(finalarmor.center, 2, isChangeArmor);

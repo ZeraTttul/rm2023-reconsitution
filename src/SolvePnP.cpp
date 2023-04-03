@@ -4,7 +4,7 @@
  * @Author: Barimu
  * @Date: 2022-10-30 00:10:23
  * @LastEditors: Barimu
- * @LastEditTime: 2022-12-21 20:55:29
+ * @LastEditTime: 2023-03-23 20:43:41
  */
 #ifndef RM2022_SOLVEPNP_CPP
 #define RM2022_SOLVEPNP_CPP
@@ -26,10 +26,10 @@ void SOLVEPNP ::caculate(armors &finalarmor) {
         static float final_distance;
         float tmp;
 
-        picture_points.push_back(finalarmor.corner[2]);
         picture_points.push_back(finalarmor.corner[1]);
-        picture_points.push_back(finalarmor.corner[3]);
+        picture_points.push_back(finalarmor.corner[2]);
         picture_points.push_back(finalarmor.corner[4]);
+        picture_points.push_back(finalarmor.corner[3]);
 
         //判断是大装甲板还是小装甲板
         if (finalarmor.number==1||finalarmor.number==6) {
@@ -58,8 +58,16 @@ void SOLVEPNP ::caculate(armors &finalarmor) {
 
         double final_angle_x = angle_x / P * 180;
         double final_angle_y = angle_y / P * 180;
-        // cout<<final_angle_x<<endl;
-        // cout<<final_angle_y<<endl;
+         cout<<"old solve x"<<final_angle_x<<endl;
+         cout<<"old solve y"<<final_angle_y<<endl;
+
+    // finalarmor.position[0]=distance_to_midboard_x ;        
+    // finalarmor.position[1]=distance_to_midboard_y ;
+    // finalarmor.position[2]=final_distance;
+
+    // yaw=atan(finalarmor.position[0]/finalarmor.position[2])/CV_PI*180;
+    // pitch=atan(finalarmor.position[1]/ finalarmor.position[2])/CV_PI*180;
+    // cout<<yaw<<" "<<pitch<<endl;
          //cout << "final_distance  " << tmp<<endl;
         
 #ifdef NX

@@ -15,8 +15,7 @@ void FindArmorFactory :: findArmorFactory(cv::Mat &frame, cv::Mat &originFrame) 
     if(m_armors_possible.size()!=0) {
         m_armor.selectrightarmor(m_armors_possible, m_armors, originFrame);
     }
-
-    if(!m_armors.size()) {
+  if(!m_armors.size()) {
         m_isDetected = true;
     }
     m_armor.selectfinalarmor(m_finalarmor, m_armors, originFrame);

@@ -4,7 +4,7 @@
  * @Author: Barimu
  * @Date: 2022-12-05 20:45:49
  * @LastEditors: Barimu
- * @LastEditTime: 2022-12-21 20:54:17
+ * @LastEditTime: 2023-03-08 21:34:55
  */
 #include"../include/predict.h"
 
@@ -48,8 +48,8 @@ namespace angle
         int lost_threshold =  5;
         last_time=0.0;
         dt_=0.0;
-        tracker_ =  std::make_unique<ArmorTracker>(kf_matrices_, max_match_distance,
-                     tracking_threshold, lost_threshold);
+        tracker_ =  std::unique_ptr<ArmorTracker>(new ArmorTracker(kf_matrices_, max_match_distance,
+                     tracking_threshold, lost_threshold));
     }
 
     void predict::armortrack(armors armor)

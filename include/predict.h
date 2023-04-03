@@ -17,7 +17,7 @@
 
 namespace angle
 {
-    class target
+    class targets
     {
         public:
             bool tracking;
@@ -31,7 +31,7 @@ namespace angle
             void initialize();
             void armortrack(armors armor);
             void angletransfer();
-            target target;
+            targets target;
         private:
 
              // Initial KF matrices

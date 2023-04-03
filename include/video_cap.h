@@ -23,7 +23,8 @@ class VideoCap{
 private:
     // const std::string m_filePath = "../testVideo/blueVideo5.mp4";       // 用来存储测试视频路，需要调用摄像头的时候删除后面的路径即可
     //const std::string m_filePath = "D:\\save\\1.mp4";
-    const std::string m_filePath = "D:\\BaiduNetdiskDownload\\1.mp4";
+    // const std::string m_filePath = "D:\\BaiduNetdiskDownload\\1.mp4";
+    const std::string m_filePath = "D:\\BaiduNetdiskDownload\\3.mp4";
     const int m_capIndex = CAP_INDEX;                                   // 当检测到 是摄像头 时，会使用这个值来表示是哪个摄像头
     cv::VideoCapture m_cap;                                             // 存储视频资源
     cv::Mat m_frame;                                                    // 用于存储当前帧图像

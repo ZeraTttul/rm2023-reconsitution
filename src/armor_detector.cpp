@@ -8,7 +8,7 @@
  * @Author: Barimu
  * @Date: 2022-10-31 22:08:46
  * @LastEditors: Barimu
- * @LastEditTime: 2022-12-05 12:29:58
+ * @LastEditTime: 2023-03-13 22:59:01
  */
 #ifndef ARMOR_DECTOR_CPP
 #define ARMOR_DECTOR_CPP
@@ -128,29 +128,57 @@ void ArmorDetector::selectLightbar(cv::Mat &frame, cv::Mat originFrame, std::vec
                 temp.r = rect;
             }
             cv::Point2f verticesR[4];
-            rect.points(verticesR);
+            temp.l.points(verticesR);
             cv::Point2f verticesRA[4];
-            rectA.points(verticesRA);
+            temp.r.points(verticesRA);
 
-            if (abs(rect.angle) > 45)
+            if (abs(temp.l.angle) > 45)
             {
                 temp.corner[1] = (verticesR[0] + verticesR[1]) / 2;
                 temp.corner[4] = (verticesR[3] + verticesR[2]) / 2;
+                if(temp.corner[1].y>temp.corner[4].y)
+                    {
+                        cv::Point2f temp2;
+                        temp2=temp.corner[1];
+                        temp.corner[1]=temp.corner[4];
+                        temp.corner[4]=temp2;
+                    }
             } else
             {
                 temp.corner[1] = (verticesR[1] + verticesR[2]) / 2;
                 temp.corner[4] = (verticesR[0] + verticesR[3]) / 2;
+                if(temp.corner[1].y>temp.corner[4].y)
+                    {
+                            cv::Point2f temp2;
+                        temp2=temp.corner[1];
+                        temp.corner[1]=temp.corner[4];
+                        temp.corner[4]=temp2;
+                    }
             }
 
-            if (abs(rectA.angle) > 45)
+            if (abs(temp.r.angle) > 45)
             {
                 temp.corner[2] = (verticesRA[1] + verticesRA[0]) / 2;
                 temp.corner[3] = (verticesRA[2] + verticesRA[3]) / 2;
+                if(temp.corner[2].y>temp.corner[3].y)
+                    {
+                            cv::Point2f temp2;
+                        temp2=temp.corner[2];
+                        temp.corner[2]=temp.corner[3];
+                        temp.corner[3]=temp2;
+                    }
             }
             else
             {
                 temp.corner[2] = (verticesRA[1] + verticesRA[2]) / 2;
                 temp.corner[3] = (verticesRA[0] + verticesRA[3]) / 2;
+                 if(temp.corner[2].y>temp.corner[3].y)
+                    {
+                            cv::Point2f temp2;
+                        temp2=temp.corner[2];
+                        temp.corner[2]=temp.corner[3];
+                        temp.corner[3]=temp2;
+                    }
             }
             if(is_armor[i][j])
             {
@@ -294,8 +322,8 @@ void ArmorDetector::selectfinalarmor(armors &final_armor, std::vector<armors> &a
             m_t=i;
         }
     }
-    armors[m_t].number=4;
     if(m_t == -1)return;
+    armors[m_t].number=4;
     final_armor = armors[m_t];
 
 #ifdef IMSHOW

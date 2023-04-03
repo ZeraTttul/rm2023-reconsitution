@@ -4,7 +4,7 @@
  * @Author: Barimu
  * @Date: 2022-12-05 10:58:35
  * @LastEditors: Barimu
- * @LastEditTime: 2022-12-21 20:52:26
+ * @LastEditTime: 2023-03-06 21:37:47
  */
 #include"../include/armor_tracker.h"
 #include<cfloat>
@@ -30,7 +30,7 @@ ArmorTracker::ArmorTracker(const KalmanFilterMatrices & kf_matrices, double max_
 void ArmorTracker::init(const armors &armor)
 {
   // KF init
-  kf_ = std::make_unique<KalmanFilter>(kf_matrices_);
+  kf_ = std::unique_ptr<KalmanFilter>(new KalmanFilter(kf_matrices_));
   Eigen::VectorXd init_state(6);
   const auto position = armor.position;
   init_state << position[0], position[1], position[2], 0, 0, 0;
@@ -69,7 +69,7 @@ void ArmorTracker::update(const armors &armor, const double & dt)
       Eigen::Vector3d position_vec(
       matched_armor.position[0], matched_armor.position[1], matched_armor.position[2]);
       //cout<<matched_armor.position<<endl;
-      //cout<<position_vec<<endl;
+      //cout<<position_vec<<endl; 
       target_state = kf_->update(position_vec);
     } else 
     {
@@ -77,7 +77,7 @@ void ArmorTracker::update(const armors &armor, const double & dt)
       {
           matched = true;
           // Reset KF
-          kf_ = std::make_unique<KalmanFilter>(kf_matrices_);
+          kf_ = std::unique_ptr<KalmanFilter>(new KalmanFilter(kf_matrices_));
           Eigen::VectorXd init_state(6);
           // Set init state with current armor position and tracking velocity before
           init_state << armor.position[0], armor.position[1], armor.position[2], tracking_velocity_;
